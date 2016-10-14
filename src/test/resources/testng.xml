@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="tests">
+	<test name="test">
+		<parameter name="baseURL" value="http://localhost:82/tracks/" />
+		<parameter name="login" value="tracks" />
+		<parameter name="password" value="tracks123" />
+		<packages>
+			<package name="by.instinctools.bogdevich.testing.authorization" />
+		 	<package name="by.instinctools.bogdevich.testing.projects" />
+			<package name="by.instinctools.bogdevich.testing.actions" /> 
+		</packages>
+
+	</test>
+</suite>
