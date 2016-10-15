@@ -7,7 +7,11 @@ import static org.testng.Assert.*;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bouncycastle.jce.interfaces.ECPointEncoder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,9 +43,9 @@ public class ProjectsEditDeletTest extends BaseTest {
 		driver.findElement(By.xpath(".//*[@class='container project']/div/div[2]/form/div[3]/div/button")).click();  //xPath: click submit button
 
 		driver.navigate().refresh();
-		String strActual = driver.findElement(By.cssSelector("div.project_settings")).getText();
-		String strExpected = addTag;
-		assertTrue(strActual.contains(strExpected));
+		String actual = driver.findElement(By.cssSelector("div.project_settings")).getText();
+		String expected = addTag;
+		assertTrue(actual.contains(expected));
 	}
 
 	// test PR7
@@ -55,45 +59,51 @@ public class ProjectsEditDeletTest extends BaseTest {
 		driver.findElement(By.id("project_default_tags")).sendKeys(addTag);
 		driver.findElement(By.xpath("html/body/div[2]/div[1]/div[2]/div/div[2]/form/div[3]/div/button")).click();//click update button 
 		
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		;
+		programSleep(1);
+		
+//		WebElement element = (WebElement) (new WebDriverWait(driver, 10)).
+//				until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("flash")));
 
-		String expectedString = driver.findElement(By.id("flash")).getText();
-
-		assertEquals(expectedString, "Project saved");
+		String actual = driver.findElement(By.id("flash")).getText();
+		String expected = "Project saved";
+		assertEquals(actual, expected);
 
 	}
+
 
 	// test PR8
 	@Test
 	public void testDeleteProject() {
+		
 		String nameProject = driver.findElement(By.xpath(".//*[@id='list-active-projects']/div/div[1]/div/span/a")) 
 				.getText();  // xPath get name first project
 		driver.findElement(By.xpath(".//*[@id='list-active-projects']/div/div[1]/a[1]")).click(); //xPath Click delete icon
-		driver.switchTo().alert().accept();
+		driver.switchTo().alert().accept();   //accept delete
+		
 		assertTrue(driver.findElement(By.linkText(nameProject)).isDisplayed());
 	}
 
 	// test PR9
 	@Test
 	public void testMessageDeleteProject() {
+		
 		String nameProject = driver.findElement(By.xpath(".//*[@id='list-active-projects']/div/div[1]/div/span/a")) 
 				.getText(); // xPath get name first project
 		driver.findElement(By.xpath(".//*[@id='list-active-projects']/div/div[1]/a[1]")).click(); //xPath Click delete icon
-		driver.switchTo().alert().accept();
+		driver.switchTo().alert().accept();    //accept delete
 
+		programSleep(1);
+		
+		assertEquals(driver.findElement(By.id("flash")).getText(), String.format("Deleted project '%s'", nameProject));
+	}
+
+	
+	public void programSleep(int counSseconds) {
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(counSseconds);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-
-		assertEquals(driver.findElement(By.id("flash")).getText(), String.format("Deleted project '%s'", nameProject));
 	}
 
 }

@@ -29,13 +29,11 @@ public class ProjectsCreateTest extends BaseTest {
 	public void testOpenPageAfterCreate() throws Exception {
 		TestDataProject testDataProject = createProject();
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		programSleep(1);
 
-		assertEquals(driver.getTitle(), String.format("TRACKS::Project: %s", testDataProject.getProjectName()));
+		String actual = driver.getTitle();
+		String expected = String.format("TRACKS::Project: %s", testDataProject.getProjectName());
+		assertEquals(actual, expected);
 	}
 
 	// test PR2
@@ -43,14 +41,12 @@ public class ProjectsCreateTest extends BaseTest {
 	public void testNameCreateProjectInTable() throws Exception {
 		TestDataProject testDataProject = createProject();
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		;
+		programSleep(1);
+		
 
-		assertEquals(driver.findElement(By.id("project_name")).getText(), testDataProject.getProjectName());
+		String actual = driver.findElement(By.id("project_name")).getText();
+		String expected = testDataProject.getProjectName();
+		assertEquals(actual, expected);
 	}
 
 	// test PR3
@@ -59,15 +55,13 @@ public class ProjectsCreateTest extends BaseTest {
 
 		TestDataProject testDataProject = createProject();
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		;
+		programSleep(1);
 
-		assertEquals(driver.findElement(By.xpath(".//*[@class='container project']/div/div/div[2]/p")).getText(),
-				testDataProject.getProjectDescription()); // xPath: get project description
+		// xPath: get project description
+		String actual = driver.findElement(By.xpath(".//*[@class='container project']/div/div/div[2]/p")).getText();
+		String expected = testDataProject.getProjectDescription();
+		
+		assertEquals(actual, expected); 
 															 
 	}
 
@@ -88,5 +82,14 @@ public class ProjectsCreateTest extends BaseTest {
 		assertTrue(strActual.contains(strExpected));
 
 	}
+	
+	public void programSleep(int counSseconds) {
+		try {
+			TimeUnit.SECONDS.sleep(counSseconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }

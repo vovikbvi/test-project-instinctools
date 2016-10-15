@@ -41,13 +41,12 @@ public class ProjectsSortedTest extends BaseTest {
 	@Test
 	public void testSortAction() {
 
-
 		boolean checkCountAction = getCountActive(
 				driver.findElement(By.xpath(".//*[@id='list-active-projects']/div/div[1]/div/span")).getText()) < 2; //xPath: get count projects
 		if (checkCountAction) {
 			addAction();
 		}
-
+		
 		List<Integer> sortArray = new ArrayList<Integer>();
 		getListProjectAction(sortArray);
 		Collections.sort(sortArray.subList(0, sortArray.size()));
@@ -56,26 +55,19 @@ public class ProjectsSortedTest extends BaseTest {
 		driver.findElement(By.id("active_actionize_link")).click();
 		driver.switchTo().alert().accept();
 
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		;
+		programSleep(3);
+		
 
 		List<Integer> expectedArray = new ArrayList<Integer>();
 		getListProjectAction(expectedArray);
 
-		Boolean eqalsArray = expectedArray.equals(sortArray);
-
-		Assert.assertTrue(eqalsArray);
+		Assert.assertTrue(expectedArray.equals(sortArray));
 	}
+
 
 	// test PR11
 	@Test
 	public void testSortAlphabetize() {
-		driver.navigate().to("http://localhost:82/tracks/projects");
-
 
 		List<String> sortArray = new ArrayList<String>();
 		getListProjectName(sortArray);
@@ -84,21 +76,24 @@ public class ProjectsSortedTest extends BaseTest {
 		driver.findElement(By.id("active_alphabetize_link")).click();
 		driver.switchTo().alert().accept();
 
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		;
+		programSleep(2);
+		
 
 		List<String> expectedArray = new ArrayList<String>();
 		getListProjectName(expectedArray);
 
-		Boolean eqalsArray = expectedArray.equals(sortArray);
-
-		Assert.assertTrue(eqalsArray);
+		Assert.assertTrue(expectedArray.equals(sortArray));
 	}
 
+	public void programSleep(int countSeconds) {
+		try {
+			TimeUnit.SECONDS.sleep(countSeconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private void getListProjectAction(List<Integer> sortArray) {
 		List<WebElement> listElements;
 		String strCountActive;
