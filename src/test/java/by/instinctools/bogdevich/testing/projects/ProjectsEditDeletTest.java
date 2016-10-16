@@ -5,8 +5,6 @@ import by.instinctools.bogdevich.testing.utils.RandomValue;
 
 import static org.testng.Assert.*;
 
-import java.util.concurrent.TimeUnit;
-
 import org.bouncycastle.jce.interfaces.ECPointEncoder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -95,15 +93,6 @@ public class ProjectsEditDeletTest extends BaseTest {
 		programSleep(1);
 		
 		assertEquals(driver.findElement(By.id("flash")).getText(), String.format("Deleted project '%s'", nameProject));
-	}
-
-	
-	public void programSleep(int counSseconds) {
-		try {
-			TimeUnit.SECONDS.sleep(counSseconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

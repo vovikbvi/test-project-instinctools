@@ -5,8 +5,6 @@ import by.instinctools.bogdevich.testing.utils.TestDataProject;
 
 import static org.testng.Assert.*;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -81,14 +79,6 @@ public class ProjectsCreateTest extends BaseTest {
 		String strExpected = String.format("with '%s' as the default tags.", testDataProject.getDefaultTags());
 		assertTrue(strActual.contains(strExpected));
 
-	}
-	
-	public void programSleep(int counSseconds) {
-		try {
-			TimeUnit.SECONDS.sleep(counSseconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 

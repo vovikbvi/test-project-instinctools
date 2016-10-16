@@ -6,7 +6,6 @@ import by.instinctools.bogdevich.testing.utils.RandomValue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -55,7 +54,7 @@ public class ProjectsSortedTest extends BaseTest {
 		driver.findElement(By.id("active_actionize_link")).click();
 		driver.switchTo().alert().accept();
 
-		programSleep(3);
+		programSleep(2);
 		
 
 		List<Integer> expectedArray = new ArrayList<Integer>();
@@ -85,15 +84,6 @@ public class ProjectsSortedTest extends BaseTest {
 		Assert.assertTrue(expectedArray.equals(sortArray));
 	}
 
-	public void programSleep(int countSeconds) {
-		try {
-			TimeUnit.SECONDS.sleep(countSeconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	private void getListProjectAction(List<Integer> sortArray) {
 		List<WebElement> listElements;
 		String strCountActive;

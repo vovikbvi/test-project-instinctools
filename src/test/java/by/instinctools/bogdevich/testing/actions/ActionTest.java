@@ -42,12 +42,8 @@ public class ActionTest extends BaseTest {
 		createProject();
 		createAction();
 
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		programSleep(1);
+		
 		String actual = driver.findElement(By.id("flash")).getText();
 		String expected = "Added new next action to tickler";
 
