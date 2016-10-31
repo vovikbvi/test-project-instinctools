@@ -124,9 +124,9 @@ public class BaseTest {
 		return countProject;
 	}
 
-	public void programSleep(int counSseconds) {
+	public void programSleep(int countSeconds) {
 		try {
-			TimeUnit.SECONDS.sleep(counSseconds);
+			TimeUnit.SECONDS.sleep(countSeconds);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
