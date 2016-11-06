@@ -1,11 +1,11 @@
 package by.instinctools.bogdevich.testing.projects;
 
 import by.instinctools.bogdevich.testing.BaseTest;
+import by.instinctools.bogdevich.testing.pageobject.ProjectDetailPage;
 import by.instinctools.bogdevich.testing.utils.TestDataProject;
 
 import static org.testng.Assert.*;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,7 +29,7 @@ public class ProjectsCreateTest extends BaseTest {
 
 		programSleep(1);
 
-		String actual = driver.getTitle();
+		String actual = ProjectDetailPage.getInstance().getTitle();
 		String expected = String.format("TRACKS::Project: %s", testDataProject.getProjectName());
 		assertEquals(actual, expected);
 	}
@@ -42,7 +42,7 @@ public class ProjectsCreateTest extends BaseTest {
 		programSleep(1);
 		
 
-		String actual = driver.findElement(By.id("project_name")).getText();
+		String actual = ProjectDetailPage.getInstance().getProjectName();
 		String expected = testDataProject.getProjectName();
 		assertEquals(actual, expected);
 	}
@@ -55,8 +55,8 @@ public class ProjectsCreateTest extends BaseTest {
 
 		programSleep(1);
 
-		// xPath: get project description
-		String actual = driver.findElement(By.xpath(".//*[@class='container project']/div/div/div[2]/p")).getText();
+	
+		String actual = ProjectDetailPage.getInstance().getProjectDescription();
 		String expected = testDataProject.getProjectDescription();
 		
 		assertEquals(actual, expected); 
@@ -75,7 +75,7 @@ public class ProjectsCreateTest extends BaseTest {
 
 		TestDataProject testDataProject = createProject();
 
-		String strActual = driver.findElement(By.cssSelector("div.project_settings")).getText();
+		String strActual = ProjectDetailPage.getInstance().getProjectTags();
 		String strExpected = String.format("with '%s' as the default tags.", testDataProject.getDefaultTags());
 		assertTrue(strActual.contains(strExpected));
 

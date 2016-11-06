@@ -12,13 +12,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import by.instinctools.bogdevich.testing.pageobject.AppManager;
+import by.instinctools.bogdevich.testing.pageobject.CreateAction;
+import by.instinctools.bogdevich.testing.pageobject.CreateProject;
+import by.instinctools.bogdevich.testing.pageobject.LoginPage;
 import by.instinctools.bogdevich.testing.utils.RandomValue;
 import by.instinctools.bogdevich.testing.utils.TestDataAction;
 import by.instinctools.bogdevich.testing.utils.TestDataProject;
 
 public class BaseTest {
 
-	protected WebDriver driver;
+	protected WebDriver driver ;
 	protected boolean acceptNextAlert = true;
 	protected StringBuffer verificationErrors = new StringBuffer();
 	protected String baseURL;
@@ -33,25 +37,29 @@ public class BaseTest {
 	@BeforeClass(alwaysRun = true)
 	public void setUp(@Optional("http://localhost:82/tracks/") String baseURL, @Optional("tracks") String login,
 			@Optional("tracks123") String password) throws Exception {
-		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		this.baseURL = baseURL;
 		this.login = login;
 		this.password = password;
-		driver.get(baseURL);
+		
+		
+		AppManager.getInstance().initApp(baseURL);
+		driver = AppManager.DRIVER;
+		
 	}
 
 	@AfterClass(alwaysRun = true)
 	public void tearDown() throws Exception {
-		driver.quit();
+		AppManager.getInstance().stopApp();
+
 	}
 
 	protected void logIn(String userName, String userPassword) {
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(userName);
-		driver.findElement(By.id("user_password")).clear();
-		driver.findElement(By.id("user_password")).sendKeys(userPassword);
-		driver.findElement(By.name("login")).click();
+		LoginPage loginPage = LoginPage.getInstance();
+		//LoginPage loginPage = new LoginPage();
+		loginPage.enterLogin(userName);
+		loginPage.enterPssword(userPassword);
+		loginPage.loginClick();
+
 	}
 
 	protected TestDataProject createProject() {
@@ -61,23 +69,15 @@ public class BaseTest {
 		testDataProject.setProjectСontext("context-" + RandomValue.INSTANCE.generateValue());
 		testDataProject.setDefaultTags("UA, AJAX, inctinctools");
 
-		driver.findElement(By.linkText("Projects")).click();
+		CreateProject createProject = CreateProject.getInstance();
 
-		driver.findElement(By.id("project_name")).clear();
-		driver.findElement(By.id("project_name")).sendKeys(testDataProject.getProjectName());
-
-		driver.findElement(By.id("project_description")).clear();
-		driver.findElement(By.id("project_description")).sendKeys(testDataProject.getProjectDescription());
-
-		driver.findElement(By.id("project_default_context_name")).clear();
-		driver.findElement(By.id("project_default_context_name")).sendKeys(testDataProject.getProjectСontext());
-
-		driver.findElement(By.id("project_default_tags")).clear();
-		driver.findElement(By.id("project_default_tags")).sendKeys(testDataProject.getDefaultTags());
-
-		driver.findElement(By.id("go_to_project")).click();
-
-		driver.findElement(By.id("project_new_project_submit")).click();
+		createProject.clickProjectLinc();
+		createProject.enterProjectName(testDataProject);
+		createProject.enterProjecDescription(testDataProject);
+		createProject.enterProjectContext(testDataProject);
+		createProject.enterProjectTags(testDataProject);
+		createProject.clickGoToProject();
+		createProject.clickCreateNewProject();
 		return testDataProject;
 	}
 
@@ -93,20 +93,13 @@ public class BaseTest {
 		dataAction.setDue(tooday.plusDays(7).format(formater));
 		dataAction.setShowForm(tooday.plusDays(1).format(formater));
 
-		driver.findElement(By.id("todo_description")).clear();
-		driver.findElement(By.id("todo_description")).sendKeys(dataAction.getDescription());
-
-		driver.findElement(By.id("todo_notes")).clear();
-		driver.findElement(By.id("todo_notes")).sendKeys(dataAction.getNotes());
-
-		driver.findElement(By.id("todo_due")).clear();
-		driver.findElement(By.id("todo_due")).sendKeys(dataAction.getDue());
-
-		driver.findElement(By.id("todo_show_from")).clear();
-		driver.findElement(By.id("todo_show_from")).sendKeys(dataAction.getShowForm());
-
-		driver.findElement(By.id("predecessor_input")).click();
-		driver.findElement(By.id("todo_new_action_submit")).click();
+		CreateAction createAction = CreateAction.getInstance();
+		
+		createAction.enterDescription(dataAction);
+		createAction.enterNotes(dataAction);
+		createAction.enterDue(dataAction);
+		createAction.enterShowForm(dataAction);
+		createAction.clickCreateNewActoin();
 
 		return dataAction;
 

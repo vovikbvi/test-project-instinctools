@@ -16,7 +16,8 @@ public class AuthorizationA3 extends BaseTest {
 
 		// logout
 		assertEquals(driver.getTitle(), "TRACKS::List tasks");
-		driver.findElement(By.linkText("Logout (tracks) »")).click();
+		driver.findElement(By.linkText("Logout (tracks) »")).click(); ///// deligate
+		
 		assertEquals(driver.getTitle(), "TRACKS::Login");
 
 		assertEquals(driver.findElement(By.id("flash")).getText(), "You have been logged out of Tracks.");
