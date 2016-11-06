@@ -1,10 +1,8 @@
 package by.instinctools.bogdevich.testing.pageobject;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class LoginPage {
-	//private static WebDriver driver;
 	public static LoginPage loginPage;
 
 	public static LoginPage getInstance() {

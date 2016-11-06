@@ -1,12 +1,14 @@
 package by.instinctools.bogdevich.testing.actions;
 
-import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import by.instinctools.bogdevich.testing.BaseTest;
+import by.instinctools.bogdevich.testing.pageobject.AppManager;
+import by.instinctools.bogdevich.testing.pageobject.MainPage;
+import by.instinctools.bogdevich.testing.pageobject.ProjectDetailPage;
 import by.instinctools.bogdevich.testing.utils.TestDataAction;
 
 public class ActionTest extends BaseTest {
@@ -14,12 +16,11 @@ public class ActionTest extends BaseTest {
 	@BeforeMethod
 	private void prerequisite() {
 
-		if (driver.getTitle().equals("TRACKS::Login")) {
+		if (MainPage.getInstance().getTitle().equals("TRACKS::Login")) {
 			logIn(login, password);
 		}
-
-		if (driver.getTitle() != "TRACKS::List Projects") {
-			driver.navigate().to(baseURL);
+		if (MainPage.getInstance().getTitle() != "TRACKS::List Projects") {
+			AppManager.DRIVER.navigate().to(baseURL);
 		}
 	}
 
@@ -29,8 +30,7 @@ public class ActionTest extends BaseTest {
 		createProject();
 		TestDataAction dataAction = createAction();
 
-		String actual = driver.findElement(By.xpath(".//*[@id='deferred_pending_container_items']/div[2]/div/div/span"))
-				.getText(); // xPath: get actions' description name
+		String actual =  ProjectDetailPage.getInstance().getActionDescription();
 		String expected = dataAction.getDescription();
 
 		assertEquals(actual, expected);
@@ -44,7 +44,7 @@ public class ActionTest extends BaseTest {
 
 		programSleep(1);
 		
-		String actual = driver.findElement(By.id("flash")).getText();
+		String actual = MainPage.getInstance().getFeedbackPanel();
 		String expected = "Added new next action to tickler";
 
 		assertEquals(actual, expected);
@@ -56,11 +56,9 @@ public class ActionTest extends BaseTest {
 		createProject();
 		TestDataAction dataAction = createAction();
 
-		driver.findElement(By.xpath(".//*[@id='deferred_pending_container_items']/div[2]/div/div/a[3]")).click(); // xPath: click Show notes  icon
+		ProjectDetailPage.getInstance().clickShowNotes();
 																												
-		String actual = driver
-				.findElement(By.xpath(".//*[@id='deferred_pending_container_items']/div[2]/div/div/div/p")).getText(); // xPath: get notes text
-																												
+		String actual = ProjectDetailPage.getInstance().getNotesText(); 
 		String expected = dataAction.getNotes();
 
 		assertEquals(actual, expected);
@@ -72,11 +70,8 @@ public class ActionTest extends BaseTest {
 		createProject();
 		TestDataAction dataAction = createAction();
 
-		// xPath: set checkbox in Deferred/pending actions in this project
-		driver.findElement(By.xpath(".//*[@id='deferred_pending_container_items']/div[2]/div/input")).click();
-
-		String actual = driver.findElement(By.xpath(".//*[@id='completed_container_items']/div/div/div/span[2]"))
-				.getText(); // xPath: action in "Completed actions in this project"
+		ProjectDetailPage.getInstance().clickCheckboxMarkComplite();
+		String actual = ProjectDetailPage.getInstance().getNameCompliteAction();
 		String expected = dataAction.getDescription();
 
 		assertEquals(actual, expected);

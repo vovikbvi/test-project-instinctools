@@ -22,7 +22,7 @@ import by.instinctools.bogdevich.testing.utils.TestDataProject;
 
 public class BaseTest {
 
-	protected WebDriver driver ;
+	//protected WebDriver driver ;
 	protected boolean acceptNextAlert = true;
 	protected StringBuffer verificationErrors = new StringBuffer();
 	protected String baseURL;
@@ -43,7 +43,7 @@ public class BaseTest {
 		
 		
 		AppManager.getInstance().initApp(baseURL);
-		driver = AppManager.DRIVER;
+		//driver = AppManager.DRIVER;
 		
 	}
 
@@ -55,7 +55,6 @@ public class BaseTest {
 
 	protected void logIn(String userName, String userPassword) {
 		LoginPage loginPage = LoginPage.getInstance();
-		//LoginPage loginPage = new LoginPage();
 		loginPage.enterLogin(userName);
 		loginPage.enterPssword(userPassword);
 		loginPage.loginClick();
@@ -105,17 +104,6 @@ public class BaseTest {
 
 	}
 
-	protected Integer getCountProject() {
-		String strCountProject = driver.findElement(By.id("active-projects-count")).getText();
-		Integer countProject = 0;
-
-		try {
-			countProject = Integer.valueOf(strCountProject);
-		} catch (NumberFormatException e) {
-			System.err.println("Неверный формат строки!");
-		}
-		return countProject;
-	}
 
 	public void programSleep(int countSeconds) {
 		try {

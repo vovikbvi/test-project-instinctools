@@ -1,6 +1,8 @@
 package by.instinctools.bogdevich.testing.projects;
 
 import by.instinctools.bogdevich.testing.BaseTest;
+import by.instinctools.bogdevich.testing.pageobject.AppManager;
+import by.instinctools.bogdevich.testing.pageobject.MainPage;
 import by.instinctools.bogdevich.testing.pageobject.ProjectDetailPage;
 import by.instinctools.bogdevich.testing.utils.TestDataProject;
 
@@ -14,11 +16,11 @@ public class ProjectsCreateTest extends BaseTest {
 	@BeforeMethod
 	private void prerequisite() {
 
-		if (driver.getTitle().equals("TRACKS::Login")) {
+		if (MainPage.getInstance().getTitle().equals("TRACKS::Login")) {
 			logIn(login, password);
 		}
-		if (driver.getTitle() != "TRACKS::List Projects") {
-			driver.navigate().to(baseURL+"projects/");
+		if (MainPage.getInstance().getTitle() != "TRACKS::List Projects") {
+			AppManager.DRIVER.navigate().to(baseURL+"projects/");
 		}
 	}
 
@@ -29,7 +31,7 @@ public class ProjectsCreateTest extends BaseTest {
 
 		programSleep(1);
 
-		String actual = ProjectDetailPage.getInstance().getTitle();
+		String actual = MainPage.getInstance().getTitle();
 		String expected = String.format("TRACKS::Project: %s", testDataProject.getProjectName());
 		assertEquals(actual, expected);
 	}
